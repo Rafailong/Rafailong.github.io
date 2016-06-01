@@ -1,0 +1,16 @@
+- name: curator-esque
+  category: library
+  tags:
+    - node.js
+    - javascript
+    - apache zookeper
+    - apache curator
+  url: https://www.npmjs.com/package/curator-esque
+
+- name: usergrid-counters
+  category: library
+  tags:
+    - node.js
+    - javascript
+    - usergrid
+  url: https://www.npmjs.com/package/usergrid-counters
