@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Mono and Postsharp</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Mono and Postsharp</h1>
+    <p class="post__date">June 2, 2016</p>
+    <div class="post__content"?>
+        <h1 id="postsharp-with-mono-v323-40-framework">PostSharp with Mono (v3.2.3) 4.0 Framework</h1>
+
+<p>I have the task to add AOP to a project in my current job to attend some cross-cutting concerns like tracing and logging and exception catching.</p>
+
+<p>I have used Postsharp but with .Net Framework v4.5 and VS 2012 and everything worked like a charm. To include Postsharp in the project was really easy and the generating custom aspect was just a codding pleasure! :)</p>
+
+<p>Now I am working in a project that exposes a ServiceStack REST API and we have the idea to change all the servers from Windows to Linux with Mono so yes, I am doing some experiments with Mono and Postsharp.</p>
+
+<p>I am running on a Windows box with Mono and VisualStudio with Mono 3.2.3 as target framework. If you want more information about the setting up VS with Mono go <a href="http://erictummers.wordpress.com/2012/01/25/target-mono-from-visual-studio/">here</a>.</p>
+
+<p>As we all know Postsharp integrates with VS really well and adding it to a project is a trivial process BUT only if you have a .Net framework as target.</p>
+
+<p>So adding Postsharp to a Mono targeted project was a manual task, adding the references to the assemblies and modifying the project file and adding <em>psproj</em> file and <em>pssln</em> file too.</p>
+
+<p>The thing that I tested of Postsharp framework were:</p>
+
+<ul>
+  <li>Multicast <em>aspecting</em></li>
+  <li>OnMethodBoundaryAspect</li>
+  <li>OnExceptionAspect</li>
+  <li>and Postsharp Diagnostic NLog</li>
+</ul>
+
+<p>The results were:</p>
+
+<h3 id="multicast-aspecting">Multicast <em>aspecting</em></h3>
+
+<p>It just did not work. The reason is something that I do not know jet but I will update this  when I know it.</p>
+
+<p>My scenario was: having a method that throws a ´NotSupportedException´ the method just kept throwing the exception and the method was never completed.</p>
+
+<h3 id="onmethodboundaryaspect">OnMethodBoundaryAspect</h3>
+
+<p>This aspect was applied the correct way either when applied to a method or to a class.</p>
+
+<h3 id="onexceptionaspect">OnExceptionAspect</h3>
+
+<p>This method was applied the correct way too.</p>
+
+<h3 id="postshrp-diagnostic">Postshrp Diagnostic</h3>
+
+<p>The things that I tested were logging with NLog plug-in and it worked fine.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>I thing that my test in incomplete BUT at least it has some point in favor and I show that Postsharp, even if Mono is not supported, we can use it. It is a shame that Multicast does not work :(</p>
+
+<blockquote>
+  <p>You can find the code <a href="https://github.com/Rafailong/MonoAndPostsharp">here</a></p>
+</blockquote>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
