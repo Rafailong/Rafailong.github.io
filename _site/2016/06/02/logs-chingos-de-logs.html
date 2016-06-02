@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Logs, chingos de logs!</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Logs, chingos de logs!</h1>
+    <p class="post__date">June 2, 2016</p>
+    <div class="post__content"?>
+        <p>Primero que nada necesitamos instalar un montón de cosas y, como esas cosas no las queremos tener en un nuestra máquina de desarrollo, vamos a usar una virtual. Entonces lo primero es</p>
+
+<ul>
+  <li>Instalar <strong>VirtualBox</strong> y también instalar una virtual con linux, yo uso Debian, no sé porqué pero uso Debian (jaja)</li>
+  <li>ya con la virtual lista, debemos tener Java instalado, así que hagamos un <code class="highlighter-rouge">sudo apt-get install openjdk-7-jdk</code> para instalar el Open Java en la versión 7. una vez que Java esté completamente instalado vamos a verificar que exista en nuestro PATH usando <code class="highlighter-rouge">java -version</code></li>
+  <li>lo siguiente a instalar es <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-repositories.html \&quot;elasticsearch\&quot;"><strong>elasticsearch</strong></a> y vamos a usar los repositorios para facilitar el proceso entonces
+    <ul>
+      <li>primero descargamos e instalamos el public signing key con <code class="highlighter-rouge">wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -</code></li>
+      <li>ahora agregamos el repositorio a la lista de sources con <code class="highlighter-rouge">deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main</code></li>
+      <li>y finalmente instalamos el paquete con <code class="highlighter-rouge">apt-get install elasticsearch</code></li>
+      <li>una vez que <strong>elascticsearch</strong> se instale, vamos a cambiar su configuración
+        <ul>
+          <li>primero creamos los dicrectorios donde va a guardar sus cosas con <code class="highlighter-rouge">mkdir /data</code> y dentro de <code class="highlighter-rouge">/data</code> creamos otros dos <code class="highlighter-rouge">mkdir -p /data/{data,logs}</code></li>
+          <li>ahora le damos permisos al usuarios creado por elasticsearch que tiene el mismo nombre, usamos el comando <code class="highlighter-rouge">sudo chown -R elasticsearch:elasticsearch /data/data</code> y <code class="highlighter-rouge">sudo chown -R elasticsearch:elasticsearch /data/logs</code> despues <code class="highlighter-rouge">sudo chmod -R ug+rw /data/data</code> y <code class="highlighter-rouge">sudo chmod -R ug+rw /data/logs</code></li>
+          <li>si en algun momento se presenta el problema de muchos archivos abierto vea esta <a href="http://www.elasticsearch.org/tutorials/too-many-open-files/">solucion</a></li>
+        </ul>
+      </li>
+      <li>ahora vamos a instalar <strong>redis</strong> tal y como lo sugiere <a href="http://redis.io/topics/quickstart">esta guía</a> usando el apartado <em>Installing Redis more properly</em></li>
+      <li>ahora instalemos <strong>logstash</strong> como dice <a href="https://www.digitalocean.com/community/tutorials/how-to-use-logstash-and-kibana-to-centralize-and-visualize-logs-on-ubuntu-14-04">aquí</a></li>
+      <li>instalar apache2 como web server <code class="highlighter-rouge">sudo apt-get install apache2</code>, puede no ser apache, puede ser nginx o IIS depende donde quieras correr <strong>Kibana</strong></li>
+      <li>instalar git <code class="highlighter-rouge">sudo apt-get install git</code></li>
+      <li>con <strong>git</strong> instalado, vamos a clonar <strong>Kibana</strong> de Github y después de eso a configurar el site en nuestro web server que ya instalamos, clonamos con <code class="highlighter-rouge">https://github.com/elasticsearch/kibana.git</code> recuerda que debes apuntar tu servidor web a la carpeta <code class="highlighter-rouge">src</code> que es donde está el sitio de <strong>Kibana</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Ya con todo instalado es momento de crear las cosas por separado para ver si corren perronamente.</p>
+
+<ul>
+  <li>Kibana es fácil, con que se vea bien el site en el navegador</li>
+  <li>elasticsearch y logstash los vamos a probar por separado con la siguiente configuración de logstash (test.conf)</li>
+</ul>
+
+<p><code class="highlighter-rouge">input { stdin { } } output { elasticseach { host =&gt; \"127.0.0.1\" protocol =&gt; http } } </code></p>
+
+<p>lo que quiere decir el config anterior es: lo que se le de alogstash por consola será mandado a elasticsearch directamente. Entonces corremos</p>
+
+<p><code class="highlighter-rouge">$bin/logstash agent -f test.conf</code></p>
+
+<p>y si mandas un mensaje, cualquiera desde la consola resultante de correr el comando anterior, podrás ver reflejados los cambios en Kibana. Así de fácil comprobamos que <strong>Kibana, elasticseach y logstash</strong> corren perronamente.</p>
+
+<p>Lo restante sería el <em>broker</em> (<strong>redis o RabbitMQ</strong>), este punto es más fácil probarlo con una app pequeña y directo con el <em>framework</em> de logging que vayas a utilizar en tu(s) apps. Te recomiendo hagas eso. Puedes encontrar un proyecto que hace eso, usando <strong>RabbitMQ</strong> en este repo, la carpeta se llama <em>LoggingToRabbitMQ</em></p>
+
+<p>NOTA: Recuerda que para probar <strong>logstash</strong> debes primero correrlo con un archivo de configuración como se muestra arriba. Pero ahora el archivo de configuración debe lucir más o menos como</p>
+
+<p><code class="highlighter-rouge">input { rabbitmq { host =&gt; \"127.0.0.1\" exchange =&gt; \"logstash\" queue =&gt; logstash\" durable =&gt; true key =&gt; \"logstash\" } } output { elasticsearch { host =&gt; \"127.0.0.1\" protocol =&gt; http } }</code></p>
+
+<p>para que <strong>logstash</strong> agarre como fuente de mensajes <strong>RabbitMQ</strong> y los mande a <strong>elasticsearch</strong></p>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
