@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Generate C# project documentation</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Generate C# project documentation</h1>
+    <p class="post__date">June 2, 2016</p>
+    <div class="post__content"?>
+        <p><img src="http://s3.ryanparman.com.s3.amazonaws.com/rage/document_all_the_things.png" alt="document all the things" /></p>
+
+<p>Hi there, this time I will show you the process and things I do to generate the documentation of my C# project (yes, only C# because I have not test it with VB).</p>
+
+<ul>
+  <li>First of all We select the project that We want to generate its documentations then right click on it so We can navigate to its properties.</li>
+  <li>Then, We are going to check XML Documentation file checkbox and change the name of the generated file to the name of the project (this rename will easy the things later)</li>
+  <li>Now, save the changes and change to Build Event tab where We will add a post build event that will be run on successful build.</li>
+  <li>The post build event or command that We are going to add only copy the generated XML file and de DLL to a folder that is located at the same level as out sln file.</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>copy /Y "$(TargetDir)$(ProjectName).XML" "$(SolutionDir)docs\$(ProjectName).XML"
+copy /Y "$(TargetPath)" "$(SolutionDir)docs\$(ProjectName).dll"
+</code></pre>
+</div>
+
+<ul>
+  <li>Until now We have made the hardest part of the configuration, now We are going to download a grate tool that will generate the documentation, <a href="https://github.com/marek-stoj/ImmDoc.NET">ImmDoc.NET</a></li>
+</ul>
+
+<iframe src="https://app.box.com/embed_widget/s/426q5tgz5zog12trbh9o?view=list&amp;sort=name&amp;direction=ASC&amp;theme=gray" width="800" height="550" frameborder="0" allowfullscreen="" webkitallowfullscreen="" msallowfullscreen="">
+</iframe>
+
+<p>We now have all in place to generate the documentation. Now using ImmDoc.NET through the command line lets navigate to the folder where the XML and DLL where copied after a VS build. Once We are there lets run the command to generate the docs.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ImmDocNet.exe -ForceDelete -IncludeInternalMembers -IncludePrivateMembers
+</code></pre>
+</div>
+
+<p>You can get help from ImmDoc.NET with</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ImmDocNet.exe -h
+</code></pre>
+</div>
+
+<p>That’s all!</p>
+
+<p>Happy Coding :-) !!!</p>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
