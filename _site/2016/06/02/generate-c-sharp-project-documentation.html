@@ -38,10 +38,9 @@
   <li>The post build event or command that We are going to add only copy the generated XML file and de DLL to a folder that is located at the same level as out sln file.</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>copy /Y "$(TargetDir)$(ProjectName).XML" "$(SolutionDir)docs\$(ProjectName).XML"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>copy /Y "$(TargetDir)$(ProjectName).XML" "$(SolutionDir)docs\$(ProjectName).XML"
 copy /Y "$(TargetPath)" "$(SolutionDir)docs\$(ProjectName).dll"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>Until now We have made the hardest part of the configuration, now We are going to download a grate tool that will generate the documentation, <a href="https://github.com/marek-stoj/ImmDoc.NET">ImmDoc.NET</a></li>
@@ -52,15 +51,13 @@ copy /Y "$(TargetPath)" "$(SolutionDir)docs\$(ProjectName).dll"
 
 <p>We now have all in place to generate the documentation. Now using ImmDoc.NET through the command line lets navigate to the folder where the XML and DLL where copied after a VS build. Once We are there lets run the command to generate the docs.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ImmDocNet.exe -ForceDelete -IncludeInternalMembers -IncludePrivateMembers
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ImmDocNet.exe -ForceDelete -IncludeInternalMembers -IncludePrivateMembers
+</code></pre></div></div>
 
 <p>You can get help from ImmDoc.NET with</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ImmDocNet.exe -h
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ImmDocNet.exe -h
+</code></pre></div></div>
 
 <p>That’s all!</p>
 
