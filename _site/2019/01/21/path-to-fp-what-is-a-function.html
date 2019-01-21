@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Path to FP - What is a function?</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Path to FP - What is a function?</h1>
+    <p class="post__date">January 21, 2019</p>
+    <div class="post__content"?>
+        <ul>
+  <li>A function is a computation that takes in a <code class="highlighter-rouge">A</code> as argument and returns a <code class="highlighter-rouge">B</code> as result.</li>
+  <li>From category theory, a function is represented as a morphism (arrow).</li>
+</ul>
+
+<p>There are several ways to define functions in Scala.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * In Scala we can define functions using `def` keyword
+ * We are defining a funciton to add 2 integer numbers.
+ */</span>
+<span class="k">def</span> <span class="n">add</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">println</span><span class="o">(</span><span class="s">"Adding 2 and 3 equals ${addPrime(2, 3)}"</span><span class="o">)</span>
+
+ <span class="cm">/**
+  * Now we define a function that takes in a A (Int)
+  * and returns a B (String)
+  */</span>
+<span class="k">def</span> <span class="n">toString</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">s</span><span class="s">"$n"</span>
+<span class="n">println</span><span class="o">(</span><span class="n">toString</span><span class="o">(</span><span class="mi">10</span><span class="o">))</span>
+
+<span class="c1">// But also we can do
+</span><span class="k">val</span> <span class="n">addPrime</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">println</span><span class="o">(</span><span class="s">"Adding 5 and 8 equals ${addPrime(5, 8)}"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>But in Scala we have types, right? So, We also can do as follow:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">addPrime2</span><span class="k">:</span> <span class="kt">Function2</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span>, <span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Function2</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span>, <span class="kt">Int</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="o">}</span>
+
+<span class="c1">// Check how many Function types we do have.
+</span><span class="n">println</span><span class="o">(</span><span class="s">"Adding 10 plus 5 equals "</span> <span class="o">+</span> <span class="n">addPrime2</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">))</span>
+</code></pre></div></div>
+
+<p>But, is the same thing a method and  a function? 🤔
+ Well, you right! No, they are not the same. A method is part of a class and a function is a complete object with some super powers
+ that we will check in the next post.</p>
+
+<p>Have fun!</p>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
