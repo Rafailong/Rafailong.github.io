@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Path to FP - Fancy functions</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Path to FP - Fancy functions</h1>
+    <p class="post__date">March 19, 2019</p>
+    <div class="post__content"?>
+        <p>We already know FP is about programming just with functions, pure and descriptive functions.</p>
+
+<p>There are some really fancy kind of functions out there:</p>
+
+<h2 id="hof-high-order-function">HOF (High Order Function)</h2>
+
+<p>Yep, a HOF is one that can take in as parameter or spit out as its result a function, and guess what,
+if for some weird reason you’ve been doing some JavaScript there’s a super high probability that you already used HOF.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">add1</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+<span class="kd">var</span> <span class="nx">number</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">add1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Where <code class="highlighter-rouge">map</code> is a HOF. Now let’s see the same example in Scala:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">numbers</span> <span class="k">=</span> <span class="o">(</span><span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span><span class="o">).</span><span class="n">toList</span>
+
+<span class="n">numbers</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="o">)</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">numbers</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Let’s get some diabetes by syntactic sugar 🤣</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>When doing Scala code and working with HOF is super normal to pass around anonymous functions
+(as we did in <code class="highlighter-rouge">number.map</code> example) rather than declaring a val or a <code class="highlighter-rouge">def</code>.</p>
+
+<h2 id="partial-functions">Partial Functions</h2>
+
+<p>A partial function is a function that will only work for a given set of its domain.
+A function that will not produce a value for every possible input value it can be given.
+We can use this type of function whenever we have functions with a ton of guard code (a bunch if and else testing the inputs).
+A simple example is when dividing by zero.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="n">divide</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+
+<span class="c1">// dividing(1, 0) will throw
+// we can use partial function for testing valid y values
+</span>
+<span class="k">val</span> <span class="n">devidePF</span><span class="k">:</span> <span class="kt">PartialFunction</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">)</span>, <span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+<span class="o">}</span>
+<span class="n">println</span><span class="o">(</span><span class="s">"8/2 equals "</span> <span class="o">+</span> <span class="n">devidePF</span><span class="o">(</span><span class="mi">8</span><span class="o">,</span> <span class="mi">2</span><span class="o">))</span>
+<span class="c1">// println("8/2 equals " + devidePF(2, 0)) this will throw, the value of y is not valid
+</span></code></pre></div></div>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
