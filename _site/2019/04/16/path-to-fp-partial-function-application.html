@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    
+        <title>Path to FP - Partial function application.</title>
+    
+
+    <meta name="description" content="ravila's blog">
+
+    
+
+    <link rel="icon" href="/assets/img/favicon.png">
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="post">
+    <a class="post__back" href="/">&lt;-- home</a>
+    <h1 class="post__title">Path to FP - Partial function application.</h1>
+    <p class="post__date">April 16, 2019</p>
+    <div class="post__content"?>
+        <p>Partial function application is creating functions from other function setting “default”
+parameters to our base function.</p>
+
+<p>What this means is that, when applying the function, you do not pass in arguments for
+all of the parameters defined by the function, but only for some of them, leaving the remaining ones blank.</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/267713ef0145acb1c248aab9a9dc29bd.js?file=one.scala"> </script>
+
+<p>Then we partially apply <code class="highlighter-rouge">add</code> to get a brand new function:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/267713ef0145acb1c248aab9a9dc29bd.js?file=two.scala"> </script>
+
+<p>Also, we can do as follow:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/267713ef0145acb1c248aab9a9dc29bd.js?file=three.scala"> </script>
+
+<p>But if we know that our brand new function will be partially applied we can define multiple argument lists!</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/267713ef0145acb1c248aab9a9dc29bd.js?file=four.scala"> </script>
+
+<p>What if there’s a function that’s already defined but we want to partially apply it?
+Well, first we get our function, then we curry it and finally we can partially apply it!
+Let’s see:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/267713ef0145acb1c248aab9a9dc29bd.js?file=five.scala"> </script>
+
+<p>Finally, understanding this concept is really important because one application of it is: dependency injection.</p>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+
+</html>
